@@ -5,7 +5,9 @@ public class SelfDestruction : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Camera.main.transform.position.x > transform.position.x + transform.localScale.x * 2) {
+		var vertExtent = Camera.main.orthographicSize;
+		var hortExtent = vertExtent * Screen.width / Screen.height;
+		if (Camera.main.transform.position.x - hortExtent > transform.position.x + transform.localScale.x * 2) {
 			Destroy (this.gameObject);
 		}
 	}
