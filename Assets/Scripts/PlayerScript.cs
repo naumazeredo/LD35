@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 public class PlayerScript : MonoBehaviour {
+    CameraScript cameraScript;
     SpriteRenderer spriteRenderer;
     Rigidbody2D rb;
     BoxCollider2D boxCol;
@@ -10,7 +11,6 @@ public class PlayerScript : MonoBehaviour {
     public LayerMask waterLayers;
 
     public bool isAlive;
-    const float moveSpeed = 8.0f;
     float curMoveSpeed;
 
     public Transform[] groundChecks;
@@ -36,13 +36,14 @@ public class PlayerScript : MonoBehaviour {
     float boostCooldownTimer;
 
 	void Start () {
+        cameraScript = Camera.main.GetComponent<CameraScript>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
         originalSize = boxCol.size;
 
         isAlive = true;
-        curMoveSpeed = moveSpeed;
+        curMoveSpeed = cameraScript.moveSpeed;
 	}
 
 
@@ -70,13 +71,13 @@ public class PlayerScript : MonoBehaviour {
 
 	void Update () {
         // Boost
-        curMoveSpeed = moveSpeed;
+        curMoveSpeed = cameraScript.moveSpeed;
 
         if (boostCooldownTimer > 0f)
             boostCooldownTimer -= Time.deltaTime;
 
         if (boostTimer > 0f) {
-            curMoveSpeed = boostMoveModifier * moveSpeed;
+            curMoveSpeed = boostMoveModifier * cameraScript.moveSpeed;
             boostTimer -= Time.deltaTime;
         }
 
@@ -145,5 +146,9 @@ public class PlayerScript : MonoBehaviour {
 
             wallBreaker.SetActive(true);
         }
+
+        // Temp
+        if (Input.GetKeyDown(KeyCode.R)) Application.LoadLevel(Application.loadedLevel);
+        // ----
 	}
 }
