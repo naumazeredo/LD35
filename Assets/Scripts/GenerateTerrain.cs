@@ -6,8 +6,10 @@ public class GenerateTerrain : MonoBehaviour {
 	public GameObject ground;
 	public GameObject water;
 	public GameObject ceiling;
-	const int cielingY = 5;
-	const int cielingSizeY = 3;
+	public GameObject breakable;
+	public GameObject wall;
+	const int ceilingY = 5;
+	const int ceilingSizeY = 3;
 	const int floorSizeY = 4;
 	const int floorY = -5;
 	const int waterSizeY = 4;
@@ -27,10 +29,39 @@ public class GenerateTerrain : MonoBehaviour {
 		}
 	}
 
+	public void AddBreakable(float posBegin, float randomY){
+		for (int j = -1; j < 7; j++) {
+			Instantiate (breakable , new Vector3 (posBegin+1, j+randomY), Quaternion.identity);
+		}
+	}
+
+	public void AddWall(float posBegin, float randomY){
+		for (int i = 1; i < 4; i++) {
+			for (int j = 0; j < 7; j++) {
+				Instantiate (wall , new Vector3 (posBegin + i, j+randomY), Quaternion.identity);
+			}
+		}
+	}
+
+	public void AddObstacle(float posXBegin, float sizeX, float randomY){
+		for (int i = 2; i < sizeX - 5; i++) {
+			var obstacle = Random.Range (1,15);
+			if (obstacle == 1 || obstacle == 2) {
+				AddWall (posXBegin + i, randomY);
+				i += 5;
+			} else if (obstacle == 2 || obstacle == 3) {
+				AddBreakable (posXBegin+i, randomY);
+				i += 3;
+			}
+		}
+	}
+
 	public void GenerateFloor(){
 		var scale = Random.Range(15, 25);
 		lastGroundX += diffGroundX + lastScale / 2;
-		RenderTerrain (ground, scale, floorSizeY, lastGroundX, floorY+Random.Range(-0.5f,0.5f));
+		var randomY = Random.Range(-0.5f,0.5f);
+		RenderTerrain (ground, scale, floorSizeY, lastGroundX, floorY+randomY);
+		AddObstacle (lastGroundX, scale, randomY);
 		lastGroundX+= + scale / 2;
 		lastScale = scale;
 		diffGroundX = Random.Range(5, 10);
@@ -48,7 +79,7 @@ public class GenerateTerrain : MonoBehaviour {
 	public void GenerateCeiling(){
 		var scale = Random.Range(15, 25);
 		lastGroundX +=lastScale / 2;
-		RenderTerrain (ceiling, scale+15, cielingSizeY, lastGroundX-4, cielingY);
+		RenderTerrain (ceiling, scale+15, ceilingSizeY, lastGroundX-4, ceilingY);
 		lastGroundX+= + scale / 2;
 		lastScale = scale;
 		diffGroundX = Random.Range(5, 10);
