@@ -5,14 +5,16 @@ public class PlayerScript : MonoBehaviour {
     Rigidbody2D rb;
     BoxCollider2D boxCol;
 
+    public LayerMask groundLayers;
+    public LayerMask ceilingLayers;
+    public LayerMask waterLayers;
+
     public bool isAlive;
     float moveSpeed;
 
     public Transform[] groundChecks;
-    public LayerMask groundLayers;
     bool isGrounded;
 
-    public LayerMask waterLayers;
     public bool isInWater;
 
     enum State { S, H, A, P, E }
@@ -26,15 +28,15 @@ public class PlayerScript : MonoBehaviour {
     Vector2 originalSize;
 
 	void Start () {
-        // Temp 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        // ----
-        isAlive = true;
-        moveSpeed = 8.0f;
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
         originalSize = boxCol.size;
+
+        isAlive = true;
+        moveSpeed = 8.0f;
 	}
+
 
     void ResetState() {
         wallBreaker.SetActive(false);
@@ -45,7 +47,6 @@ public class PlayerScript : MonoBehaviour {
     }
 
     void FixedUpdate() {
-
         Vector3 vec = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
         transform.position = vec;
 
@@ -62,10 +63,16 @@ public class PlayerScript : MonoBehaviour {
 
 	void Update () {
         // S
+        rb.gravityScale = 1;
         if (Input.GetKey(KeyCode.S)) {
             ResetState();
             state = State.S;
             spriteRenderer.color = Color.red;
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 10, ceilingLayers);
+            if (hit) {
+                rb.gravityScale = -2;
+            }
         }
 
         // H
