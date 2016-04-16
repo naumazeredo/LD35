@@ -36,3 +36,5 @@ Thumbs.db
 
 webclient/
 [Bb]uild/
+
+*.scene
