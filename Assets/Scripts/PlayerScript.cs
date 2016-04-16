@@ -5,6 +5,9 @@ public class PlayerScript : MonoBehaviour {
     Rigidbody2D rb;
     BoxCollider2D boxCol;
 
+    public bool isAlive;
+    float moveSpeed;
+
     public Transform[] groundChecks;
     public LayerMask groundLayers;
     bool isGrounded;
@@ -26,6 +29,8 @@ public class PlayerScript : MonoBehaviour {
         // Temp 
         spriteRenderer = GetComponent<SpriteRenderer>();
         // ----
+        isAlive = true;
+        moveSpeed = 8.0f;
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
         originalSize = boxCol.size;
@@ -36,9 +41,14 @@ public class PlayerScript : MonoBehaviour {
         boxCol.size = originalSize;
         boxCol.offset = new Vector2(0, 0);
         rb.gravityScale = 1f;
+        moveSpeed = 8.0f;
     }
 
     void FixedUpdate() {
+
+        Vector3 vec = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
+        transform.position = vec;
+
         isGrounded = Physics2D.OverlapArea(groundChecks[0].position, groundChecks[1].position, groundLayers);
 
         Vector2 extents = spriteRenderer.sprite.bounds.extents;
