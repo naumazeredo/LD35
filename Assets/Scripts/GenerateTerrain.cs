@@ -38,7 +38,7 @@ public class GenerateTerrain : MonoBehaviour {
 	public void AddWall(float posBegin, float randomY){
 		for (int i = 1; i < 4; i++) {
 			for (int j = 0; j < 7; j++) {
-				Instantiate (wall , new Vector3 (posBegin + i, j+randomY), Quaternion.identity);
+				Instantiate (wall , new Vector3 (posBegin + i, j+randomY-0.6f), Quaternion.identity);
 			}
 		}
 	}
@@ -59,7 +59,7 @@ public class GenerateTerrain : MonoBehaviour {
 	public void GenerateFloor(){
 		var scale = Random.Range(15, 25);
 		lastGroundX += diffGroundX + lastScale / 2;
-		var randomY = Random.Range(-0.5f,0.5f);
+		var randomY = Random.Range(-0.3f,0.3f);
 		RenderTerrain (ground, scale, floorSizeY, lastGroundX, floorY+randomY);
 		AddObstacle (lastGroundX, scale, randomY);
 		lastGroundX+= + scale / 2;
@@ -70,7 +70,7 @@ public class GenerateTerrain : MonoBehaviour {
 	public void GenerateWater(){
 		var scale = Random.Range(15, 25);
 		lastGroundX+=  lastScale / 2;
-		RenderTerrain (water, scale+15, waterSizeY, lastGroundX-4, waterY+Random.Range(-0.5f,0.5f));
+		RenderTerrain (water, scale+15, waterSizeY, lastGroundX-4, waterY+Random.Range(-0.3f,0.3f));
 		lastGroundX+= + scale / 2;
 		lastScale = scale;
 		diffGroundX = Random.Range(5, 10);
