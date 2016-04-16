@@ -2,6 +2,7 @@
 
 public class PlayerScript : MonoBehaviour {
     Rigidbody2D rb;
+    BoxCollider2D boxCol;
 
     public Transform[] groundChecks;
     public LayerMask groundLayers;
@@ -13,33 +14,66 @@ public class PlayerScript : MonoBehaviour {
 
     // E
     public GameObject wallBreaker;
-    public bool isBreaking;
 
-    const float totalWallBreakTime = 1f;
-    float wallBreakTime;
-    float wallBreakCooldown;
+    // P
+    Vector2 originalSize;
 
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
+        boxCol = GetComponent<BoxCollider2D>();
+        originalSize = boxCol.size;
 	}
+
+    void ResetState() {
+        wallBreaker.SetActive(false);
+        boxCol.size = originalSize;
+    }
 
 	void Update () {
         isGrounded = Physics2D.OverlapArea(groundChecks[0].position, groundChecks[1].position, groundLayers);
 
-        // H
-        if (isGrounded && Input.GetKey(KeyCode.H)) {
-            Vector3 vec = rb.velocity;
-            vec.y = 10;
-            rb.velocity = vec;
+        // S
+        if (Input.GetKey(KeyCode.S)) {
+            ResetState();
+            state = State.S;
+        }
 
+        // H
+        else if (Input.GetKey(KeyCode.H)) {
+            ResetState();
             state = State.H;
+
+            if (isGrounded) {
+                Vector3 vec = rb.velocity;
+                vec.y = 10;
+                rb.velocity = vec;
+            }
+        }
+
+        // A
+        else if (Input.GetKey(KeyCode.A)) {
+            ResetState();
+            state = State.A;
+        }
+
+        // P
+        else if (Input.GetKey(KeyCode.P)) {
+            ResetState();
+            state = State.P;
+
+            if (Input.GetKeyDown(KeyCode.P)) {
+                Vector2 size = originalSize;
+                size.y /= 2;
+                boxCol.size = size;
+            }
         }
 
         // E
         else if (Input.GetKey(KeyCode.E)) {
-            wallBreaker.SetActive(true);
+            ResetState();
+            state = State.E;
 
-            state = State.H;
+            wallBreaker.SetActive(true);
         }
 	}
 }
