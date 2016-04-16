@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 public class PlayerScript : MonoBehaviour {
+    CameraScript cameraScript;
     SpriteRenderer spriteRenderer;
     Rigidbody2D rb;
     BoxCollider2D boxCol;
@@ -10,7 +11,7 @@ public class PlayerScript : MonoBehaviour {
     public LayerMask waterLayers;
 
     public bool isAlive;
-    float moveSpeed;
+    float curMoveSpeed;
 
     public Transform[] groundChecks;
     bool isGrounded;
@@ -27,14 +28,22 @@ public class PlayerScript : MonoBehaviour {
     // P
     Vector2 originalSize;
 
+    // Boost
+    const float boostDuration = 1f;
+    const float boostCooldownDuration = 30f;
+    const float boostMoveModifier = 1.05f;
+    float boostTimer;
+    float boostCooldownTimer;
+
 	void Start () {
+        cameraScript = Camera.main.GetComponent<CameraScript>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
         originalSize = boxCol.size;
 
         isAlive = true;
-        moveSpeed = 8.0f;
+        curMoveSpeed = cameraScript.moveSpeed;
 	}
 
 
@@ -43,11 +52,10 @@ public class PlayerScript : MonoBehaviour {
         boxCol.size = originalSize;
         boxCol.offset = new Vector2(0, 0);
         rb.gravityScale = 1f;
-        moveSpeed = 8.0f;
     }
 
     void FixedUpdate() {
-        Vector3 vec = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
+        Vector3 vec = new Vector3(transform.position.x + curMoveSpeed * Time.deltaTime, transform.position.y, transform.position.z);
         transform.position = vec;
 
         isGrounded = Physics2D.OverlapArea(groundChecks[0].position, groundChecks[1].position, groundLayers);
@@ -62,6 +70,22 @@ public class PlayerScript : MonoBehaviour {
     }
 
 	void Update () {
+        // Boost
+        curMoveSpeed = cameraScript.moveSpeed;
+
+        if (boostCooldownTimer > 0f)
+            boostCooldownTimer -= Time.deltaTime;
+
+        if (boostTimer > 0f) {
+            curMoveSpeed = boostMoveModifier * cameraScript.moveSpeed;
+            boostTimer -= Time.deltaTime;
+        }
+
+        if (boostCooldownTimer <= 0f && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))) {
+            boostTimer = boostDuration;
+            boostCooldownTimer = boostCooldownDuration;
+        }
+
         // S
         rb.gravityScale = 1;
         if (Input.GetKey(KeyCode.S)) {
@@ -122,5 +146,9 @@ public class PlayerScript : MonoBehaviour {
 
             wallBreaker.SetActive(true);
         }
+
+        // Temp
+        if (Input.GetKeyDown(KeyCode.R)) Application.LoadLevel(Application.loadedLevel);
+        // ----
 	}
 }
