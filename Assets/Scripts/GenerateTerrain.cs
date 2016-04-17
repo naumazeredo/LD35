@@ -5,7 +5,9 @@ public class GenerateTerrain : MonoBehaviour {
 	public GameObject ground;
     public Sprite[] groundBorder;
     public Sprite[] groundInner;
+    public Sprite[] groundRare;
 	public GameObject water;
+    public GameObject waterSurface;
 	public GameObject ceiling;
     public Sprite[] ceilingSprites;
 	public GameObject breakable;
@@ -17,25 +19,29 @@ public class GenerateTerrain : MonoBehaviour {
 	const int floorY = -5;
 	const int waterSizeY = 4;
 	const int waterY = -6;
-	int diffGroundX = 0;
+	int diffGroundX = 10;
 	float lastGroundX = 0.00f;
 	int lastScale = 0;
-	const int maxNumBlocks = 5;
+	const int maxNumBlocks = 1;
 	enum FloorType { Floor, Water, Ceiling };
 	FloorType lastFloor = FloorType.Ceiling;
 
 	public void RenderTerrain(GameObject objectType, int sizeX, int sizeY, float posXBegin, float posYBegin){
 		for (int i = 0; i < sizeX; i++) {
 			for (int j = 0; j < sizeY; j++) {
-				GameObject go = Instantiate (objectType , new Vector3 (posXBegin + i, posYBegin+j), Quaternion.identity) as GameObject;
+                GameObject go;
+                if (objectType == water && j == sizeY-1) go = Instantiate (waterSurface, new Vector3 (posXBegin + i, posYBegin+j), Quaternion.identity) as GameObject;
+                else go = Instantiate (objectType, new Vector3 (posXBegin + i, posYBegin+j), Quaternion.identity) as GameObject;
                 if (objectType == ceiling) {
                     go.GetComponent<SpriteRenderer>().sprite = ceilingSprites[Random.Range(0, ceilingSprites.Length)];
                     go.GetComponent<SpriteRenderer>().color = Color.white;
+                } else if (objectType == ground) {
+                    if (j == sizeY - 1) go.GetComponent<SpriteRenderer>().sprite = groundBorder[Random.Range(0, groundBorder.Length)];
+                    else {
+                        if (Random.Range(0, 100) <= 5) go.GetComponent<SpriteRenderer>().sprite = groundRare[Random.Range(0, groundRare.Length)];
+                        else go.GetComponent<SpriteRenderer>().sprite = groundInner[Random.Range(0, groundInner.Length)];
+                    }
                 }
-                /*
-                if (j == sizeY - 1) go.GetComponent<SpriteRenderer>().sprite = groundBorder[Random.Range(0, groundBorder.Length)];
-                else go.GetComponent<SpriteRenderer>().sprite = groundInner[Random.Range(0, groundInner.Length)];
-                */
             }
         }
 	}
@@ -118,19 +124,7 @@ public class GenerateTerrain : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        /*
-		for (int i = 0; i < maxNumBlocks; i++) {
-			var terrainType = GetFloorType ();
-			if (terrainType == FloorType.Water) {
-				GenerateWater ();
-			} else if (terrainType == FloorType.Ceiling) {
-				GenerateCeiling ();
-			}
-			GenerateFloor();
-		}
-        */
-
-        lastGroundX = 117f;
+        lastGroundX = 110f;
 	}
 	
 	// Update is called once per frame
