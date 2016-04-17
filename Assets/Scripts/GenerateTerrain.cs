@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class GenerateTerrain : MonoBehaviour {
 
 	public GameObject ground;
+    public Sprite[] groundBorder;
+    public Sprite[] groundInner;
 	public GameObject water;
 	public GameObject ceiling;
+    public Sprite[] ceilingSprites;
 	public GameObject breakable;
+    public Sprite[] breakableSprites;
 	public GameObject wall;
 	const int ceilingY = 5;
 	const int ceilingSizeY = 3;
@@ -24,21 +27,31 @@ public class GenerateTerrain : MonoBehaviour {
 	public void RenderTerrain(GameObject objectType, int sizeX, int sizeY, float posXBegin, float posYBegin){
 		for (int i = 0; i < sizeX; i++) {
 			for (int j = 0; j < sizeY; j++) {
-				Instantiate (objectType , new Vector3 (posXBegin + i, posYBegin+j), Quaternion.identity);
-			}
-		}
+				GameObject go = Instantiate (objectType , new Vector3 (posXBegin + i, posYBegin+j), Quaternion.identity) as GameObject;
+                if (objectType == ceiling) {
+                    go.GetComponent<SpriteRenderer>().sprite = ceilingSprites[Random.Range(0, ceilingSprites.Length)];
+                    go.GetComponent<SpriteRenderer>().color = Color.white;
+                }
+                /*
+                if (j == sizeY - 1) go.GetComponent<SpriteRenderer>().sprite = groundBorder[Random.Range(0, groundBorder.Length)];
+                else go.GetComponent<SpriteRenderer>().sprite = groundInner[Random.Range(0, groundInner.Length)];
+                */
+            }
+        }
 	}
 
 	public void AddBreakable(float posBegin, float randomY){
 		for (int j = -1; j < 7; j++) {
-			Instantiate (breakable , new Vector3 (posBegin+1, j+randomY), Quaternion.identity);
+			GameObject go = Instantiate (breakable , new Vector3 (posBegin+1, j+randomY), Quaternion.identity) as GameObject;
+            go.GetComponent<SpriteRenderer>().sprite = breakableSprites[Random.Range(0, breakableSprites.Length)];
+            go.GetComponent<SpriteRenderer>().color = Color.white;
 		}
 	}
 
 	public void AddWall(float posBegin, float randomY){
 		for (int i = 1; i < 4; i++) {
 			for (int j = 0; j < 7; j++) {
-				Instantiate (wall , new Vector3 (posBegin + i, j+randomY-0.6f), Quaternion.identity);
+				Instantiate (wall , new Vector3 (posBegin + i, j+randomY-0.4f), Quaternion.identity);
 			}
 		}
 	}
@@ -87,15 +100,15 @@ public class GenerateTerrain : MonoBehaviour {
 
 	FloorType GetFloorType(){
 		var floorType = Random.Range (1, 10);
-		if(lastFloor !=FloorType.Floor ){
+		if(lastFloor != FloorType.Floor ){
 			lastFloor = FloorType.Floor;
 			return FloorType.Floor;
 		}
-		if (floorType == 1 || floorType == 2) {
+		if (floorType <= 3) {
 			lastFloor = FloorType.Water;
 			return FloorType.Water;
 		}
-		else if(floorType == 3){
+		else if(floorType <= 6){
 			lastFloor = FloorType.Ceiling;
 			return FloorType.Ceiling;
 		}
@@ -105,6 +118,7 @@ public class GenerateTerrain : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        /*
 		for (int i = 0; i < maxNumBlocks; i++) {
 			var terrainType = GetFloorType ();
 			if (terrainType == FloorType.Water) {
@@ -114,6 +128,9 @@ public class GenerateTerrain : MonoBehaviour {
 			}
 			GenerateFloor();
 		}
+        */
+
+        lastGroundX = 117f;
 	}
 	
 	// Update is called once per frame

@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CameraScript : MonoBehaviour {
-
+    public float initialMoveSpeed = 10f;
     public float moveSpeed;
     float difficultTimer;
 
 	void Start () {
-        moveSpeed = 8f;
+        moveSpeed = initialMoveSpeed;
         difficultTimer = 5f;
 	}
 	
