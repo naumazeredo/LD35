@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour {
     Animator anim;
@@ -49,6 +50,7 @@ public class PlayerScript : MonoBehaviour {
 
     // HUD
     public Text scoreText;
+    public Text[] gameOverText;
 
 	void Start () {
         cameraScript = Camera.main.GetComponent<CameraScript>();
@@ -102,10 +104,12 @@ public class PlayerScript : MonoBehaviour {
             if (rb.velocity.y < -4f) rb.velocity = new Vector2(rb.velocity.x, -4f);
         }
 
-        score += curMoveSpeed / 32;
+        if (isAlive) score += curMoveSpeed / 32;
     }
 
 	void Update () {
+        anim.SetBool("isInWater", isInWater);
+
         // Boost
         curMoveSpeed = cameraScript.moveSpeed;
 
@@ -120,6 +124,20 @@ public class PlayerScript : MonoBehaviour {
         if (boostCooldownTimer <= 0f && (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))) {
             boostTimer = boostDuration;
             boostCooldownTimer = boostCooldownDuration;
+        }
+
+        // Game Over
+        var vertExtent = Camera.main.orthographicSize;
+        var hortExtent = vertExtent * Screen.width / Screen.height;
+        if ((Camera.main.transform.position.x - hortExtent > transform.position.x + transform.localScale.x) ||
+            (Camera.main.transform.position.y - vertExtent > transform.position.y + transform.localScale.y)) {
+            isAlive = false;
+        }
+        if (!isAlive) {
+            scoreText.gameObject.SetActive(false);
+            gameOverText[0].text = "GAME OVER";
+            gameOverText[1].text = "Score: " + ((int)score).ToString();
+            gameOverText[2].text = "Press 'R' to restart";
         }
 
         // S
@@ -196,8 +214,9 @@ public class PlayerScript : MonoBehaviour {
 
         scoreText.text = ((int)score).ToString();
 
-        // Temp
-        if (Input.GetKeyDown(KeyCode.R)) Application.LoadLevel(Application.loadedLevel);
-        // ----
+        //if (Input.GetKeyDown(KeyCode.R) && !isAlive) Application.LoadLevel(Application.loadedLevel);
+        if (Input.GetKeyDown(KeyCode.R) && !isAlive) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
 	}
 }

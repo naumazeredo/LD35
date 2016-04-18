@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
-    public float initialMoveSpeed = 10f;
+    public float initialMoveSpeed = 8f;
     public float moveSpeed;
     float difficultTimer;
 
@@ -18,7 +18,7 @@ public class CameraScript : MonoBehaviour {
         difficultTimer -= Time.deltaTime;
         if (difficultTimer < 0) {
             difficultTimer += 5f;
-            moveSpeed += 0.2f;
+            moveSpeed += 0.4f;
         }
 	}
 }

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ba12b4d28444ce44d921a41bfa951e9e
-timeCreated: 1460906056
+timeCreated: 1460939427
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,10 +9,11 @@ TextureImporter:
     21300004: elephant_running (1)_2
     21300006: elephant_running (1)_3
     21300008: elephant_running (1)_4
+    21300010: elephant_running (1)_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -59,20 +60,20 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
+        y: 95
         width: 48
         height: 48
       alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+      pivot: {x: 0.5, y: 0.333}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -19, y: 16.599998}
-        - {x: -24, y: 12.599998}
-        - {x: -24, y: -5.4000015}
-        - {x: -19, y: -14.400002}
-        - {x: 24, y: -14.400002}
-        - {x: 24, y: 12.599998}
-        - {x: 18, y: 16.599998}
+      - - {x: -22, y: 16.015999}
+        - {x: -24, y: 15.015999}
+        - {x: -24, y: -10.984001}
+        - {x: -23, y: -15.984001}
+        - {x: 24, y: -15.984001}
+        - {x: 24, y: 12.015999}
+        - {x: 18, y: 16.015999}
     - name: elephant_running (1)_1
       rect:
         serializedVersion: 2
@@ -81,17 +82,16 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+      pivot: {x: 0.5, y: 0.333}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -13, y: 17.599998}
-        - {x: -24, y: 15.599998}
-        - {x: -24, y: -0.40000153}
-        - {x: -18, y: -14.400002}
-        - {x: 22, y: -14.400002}
-        - {x: 24, y: -13.400002}
-        - {x: 24, y: 11.599998}
-        - {x: 19, y: 17.599998}
+      - - {x: -16, y: 16.015999}
+        - {x: -24, y: 15.015999}
+        - {x: -24, y: -1.9840012}
+        - {x: -20, y: -15.984001}
+        - {x: 24, y: -15.984001}
+        - {x: 24, y: 12.015999}
+        - {x: 18, y: 16.015999}
     - name: elephant_running (1)_2
       rect:
         serializedVersion: 2
@@ -100,35 +100,36 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+      pivot: {x: 0.5, y: 0.333}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -24, y: 19.599998}
-        - {x: -24, y: -14.400002}
-        - {x: 24, y: -14.400002}
-        - {x: 24, y: 14.599998}
-        - {x: 15, y: 19.599998}
+      - - {x: -24, y: 17.015999}
+        - {x: -24, y: -9.984001}
+        - {x: -21, y: -15.984001}
+        - {x: 22, y: -15.984001}
+        - {x: 24, y: -10.984001}
+        - {x: 24, y: 4.015999}
+        - {x: 21, y: 17.015999}
     - name: elephant_running (1)_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 48
+        y: 47
         width: 48
         height: 48
       alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+      pivot: {x: 0.5, y: 0.333}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 10, y: 25.599998}
-        - {x: -17, y: 25.599998}
-        - {x: -23, y: 20.599998}
-        - {x: -24, y: 18.599998}
-        - {x: -24, y: 2.5999985}
-        - {x: -17, y: -9.400002}
-        - {x: 3, y: -9.400002}
-        - {x: 22, y: -8.400002}
-        - {x: 24, y: -2.4000015}
-        - {x: 24, y: 21.599998}
+      - - {x: 6, y: 16.015999}
+        - {x: -16, y: 16.015999}
+        - {x: -24, y: 12.015999}
+        - {x: -24, y: -8.984001}
+        - {x: -22, y: -15.984001}
+        - {x: 22, y: -15.984001}
+        - {x: 24, y: -11.984001}
+        - {x: 24, y: 0.01599884}
+        - {x: 17, y: 15.015999}
     - name: elephant_running (1)_4
       rect:
         serializedVersion: 2
@@ -137,15 +138,38 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 9
-      pivot: {x: 0.5, y: 0.3}
+      pivot: {x: 0.5, y: 0.333}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -24, y: 24.599998}
-        - {x: -24, y: 7.5999985}
-        - {x: -21, y: -9.400002}
-        - {x: 23, y: -9.400002}
-        - {x: 24, y: -8.400002}
-        - {x: 24, y: 24.599998}
+      - - {x: -16, y: 15.015999}
+        - {x: -24, y: 10.015999}
+        - {x: -24, y: -4.984001}
+        - {x: -21, y: -15.984001}
+        - {x: 22, y: -15.984001}
+        - {x: 24, y: -13.984001}
+        - {x: 24, y: 2.0159988}
+        - {x: 17, y: 15.015999}
+    - name: elephant_running (1)_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 48
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5, y: 0.333}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -19, y: 32.016}
+        - {x: -18, y: 29.015999}
+        - {x: -7, y: 29.015999}
+        - {x: -5, y: 31.015999}
+        - {x: -5, y: 32.016}
+      - - {x: -3, y: 32.016}
+        - {x: -2, y: 29.015999}
+        - {x: 9, y: 29.015999}
+        - {x: 11, y: 31.015999}
+        - {x: 11, y: 32.016}
     outline: []
   spritePackingTag: 
   userData: 

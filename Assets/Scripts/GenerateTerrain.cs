@@ -13,6 +13,7 @@ public class GenerateTerrain : MonoBehaviour {
 	public GameObject breakable;
     public Sprite[] breakableSprites;
 	public GameObject wall;
+    public Sprite[] wallSprites;
 	const int ceilingY = 5;
 	const int ceilingSizeY = 3;
 	const int floorSizeY = 4;
@@ -30,7 +31,7 @@ public class GenerateTerrain : MonoBehaviour {
 		for (int i = 0; i < sizeX; i++) {
 			for (int j = 0; j < sizeY; j++) {
                 GameObject go;
-                if (objectType == water && j == sizeY-1) go = Instantiate (waterSurface, new Vector3 (posXBegin + i, posYBegin+j), Quaternion.identity) as GameObject;
+                if (objectType == water && j == sizeY-1) go = Instantiate (waterSurface, new Vector3 (posXBegin + i, posYBegin+j-0.01f), Quaternion.identity) as GameObject;
                 else go = Instantiate (objectType, new Vector3 (posXBegin + i, posYBegin+j), Quaternion.identity) as GameObject;
                 if (objectType == ceiling) {
                     go.GetComponent<SpriteRenderer>().sprite = ceilingSprites[Random.Range(0, ceilingSprites.Length)];
@@ -50,14 +51,14 @@ public class GenerateTerrain : MonoBehaviour {
 		for (int j = -1; j < 7; j++) {
 			GameObject go = Instantiate (breakable , new Vector3 (posBegin+1, j+randomY), Quaternion.identity) as GameObject;
             go.GetComponent<SpriteRenderer>().sprite = breakableSprites[Random.Range(0, breakableSprites.Length)];
-            go.GetComponent<SpriteRenderer>().color = Color.white;
 		}
 	}
 
 	public void AddWall(float posBegin, float randomY){
 		for (int i = 1; i < 4; i++) {
 			for (int j = 0; j < 7; j++) {
-				Instantiate (wall , new Vector3 (posBegin + i, j+randomY-0.4f), Quaternion.identity);
+                GameObject go = Instantiate (wall , new Vector3 (posBegin + i, j+randomY-0.4f), Quaternion.identity) as GameObject;
+                go.GetComponent<SpriteRenderer>().sprite = wallSprites[Random.Range(0, wallSprites.Length)];
 			}
 		}
 	}
